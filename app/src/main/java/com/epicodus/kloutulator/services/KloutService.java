@@ -162,19 +162,18 @@ public class KloutService {
                     }
                 }
 
-                JSONArray myInfluencees = influenceJSON.getJSONArray("myInfluencees");
-                    if(myInfluencees.length() > 0) {
-                        for(int i = 0; i < myInfluencees.length(); i++) {
-                            JSONObject entity = myInfluencers.getJSONObject(i);
-                            JSONObject payload = entity.getJSONObject("payload");
-                            String name = payload.getString("nick");
-                            JSONObject scores = payload.getJSONObject("score");
-                            String influenceeScore = scores.getString("score");
-                            Influencer newInfluencee = new Influencer(name, score);
-                            influencees.add(newInfluencee);
-                        }
-
-                }
+//                JSONArray myInfluencees = influenceJSON.getJSONArray("myInfluencees");
+//                    if(myInfluencees.length() > 0) {
+//                        for(int i = 0; i < myInfluencees.length(); i++) {
+//                            JSONObject entity = myInfluencers.getJSONObject(i);
+//                            JSONObject payload = entity.getJSONObject("payload");
+//                            String name = payload.getString("nick");
+//                            JSONObject scores = payload.getJSONObject("score");
+//                            String influenceeScore = scores.getString("score");
+//                            Influencer newInfluencee = new Influencer(name, score);
+//                            influencees.add(newInfluencee);
+//                        }
+//                }
 
             }
         } catch (IOException e) {
@@ -183,7 +182,7 @@ public class KloutService {
             e.printStackTrace();
         }
 
-
         return influencers;
+
     }
 }

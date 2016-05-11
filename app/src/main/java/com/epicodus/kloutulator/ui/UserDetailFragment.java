@@ -42,7 +42,7 @@ public class UserDetailFragment extends Fragment {
     @Bind(R.id.ratingTextView) TextView mRatingTextView;
     @Bind(R.id.weekChangeTextView) TextView mWeekChangeTextView;
     @Bind(R.id.monthChangeTextView) TextView mMonthChangeTextView;
-    @Bind(R.id.influenceesRecyclerView) RecyclerView mInfluenceesRecyclerView;
+//    @Bind(R.id.influenceesRecyclerView) RecyclerView mInfluenceesRecyclerView;
     @Bind(R.id.influencersRecyclerView) RecyclerView getmInfluencersRecyclerView;
 
     public ArrayList<Influencer> mInfluencers;
@@ -93,7 +93,7 @@ public class UserDetailFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 kloutService.processResults(response);
                 kloutID = kloutService.getKloutID();
 
@@ -143,7 +143,7 @@ public class UserDetailFragment extends Fragment {
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
+                        public void onResponse(Call call, Response responseInfluence)  {
                             mInfluencers = kloutService.processInfluenceResults(response);
                         }
                     });
