@@ -1,4 +1,4 @@
-package com.epicodus.kloutulator;
+package com.epicodus.kloutulator.models;
 
 /**
  * Created by Guest on 5/10/16.

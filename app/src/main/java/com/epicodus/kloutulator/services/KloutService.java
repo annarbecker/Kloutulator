@@ -1,13 +1,15 @@
-package com.epicodus.kloutulator;
+package com.epicodus.kloutulator.services;
 
 import android.util.Log;
+
+import com.epicodus.kloutulator.Constants;
+import com.epicodus.kloutulator.models.Influencer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import okhttp3.Call;
