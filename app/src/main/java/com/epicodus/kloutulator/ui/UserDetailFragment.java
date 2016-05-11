@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.epicodus.kloutulator.Constants;
 import com.epicodus.kloutulator.R;
+import com.epicodus.kloutulator.adapters.InfluencerListAdapter;
 import com.epicodus.kloutulator.models.Influencer;
 import com.epicodus.kloutulator.services.KloutService;
 
@@ -38,7 +40,6 @@ public class UserDetailFragment extends Fragment {
 
     @Bind(R.id.usernameTextView) TextView mUsernameTextView;
     @Bind(R.id.ratingTextView) TextView mRatingTextView;
-    @Bind(R.id.dayChangeTextView) TextView mDayChangeTextView;
     @Bind(R.id.weekChangeTextView) TextView mWeekChangeTextView;
     @Bind(R.id.monthChangeTextView) TextView mMonthChangeTextView;
     @Bind(R.id.influenceesRecyclerView) RecyclerView mInfluenceesRecyclerView;
@@ -52,6 +53,7 @@ public class UserDetailFragment extends Fragment {
     private String dayChange;
     private String monthChange;
     private String weekChange;
+    private InfluencerListAdapter mInfluencerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,13 @@ public class UserDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mUsernameTextView.setText(mSearchedUsername);
+
+        mInfluencerAdapter = new InfluencerListAdapter(this.getContext(), mInfluencers);
+        getmInfluencersRecyclerView.setAdapter(mInfluencerAdapter);
+        RecyclerView.LayoutManager influencerLayoutManager = new LinearLayoutManager(this.getContext());
+        getmInfluencersRecyclerView.setLayoutManager(influencerLayoutManager);
+        getmInfluencersRecyclerView.setHasFixedSize(true);
+
         return view;
     }
 
@@ -119,10 +128,9 @@ public class UserDetailFragment extends Fragment {
                                     weekChange = kloutService.getWeekChange();
                                     monthChange = kloutService.getMonthChange();
 
-                                    mRatingTextView.setText(score);
-                                    mDayChangeTextView.setText(dayChange);
-                                    mWeekChangeTextView.setText(weekChange);
-                                    mMonthChangeTextView.setText(monthChange);
+                                    mRatingTextView.setText("Klout Score " + score);
+                                    mWeekChangeTextView.setText("Week Change \n" + weekChange);
+                                    mMonthChangeTextView.setText("Monthly Change \n" + monthChange);
                                 }
                             });
                         }
