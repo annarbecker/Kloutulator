@@ -71,8 +71,6 @@ public class UserDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mUsernameTextView.setText(mSearchedUsername);
-        setScore(score);
-
         return view;
     }
 
@@ -111,27 +109,22 @@ public class UserDetailFragment extends Fragment {
                         }
 
                         @Override
-                        public void onResponse(Call call, Response response) throws IOException {
+                        public void onResponse(Call call, Response response)  {
                             kloutService.processUserResults(response);
-                            score = kloutService.getScore();
-                            Log.d(TAG, score);
 
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    score = kloutService.getScore();
+                                    weekChange = kloutService.getWeekChange();
+                                    monthChange = kloutService.getMonthChange();
 
-//                            dayChange = kloutService.getDayChange();
-//                            setDayChange(dayChange);
-//
-//
-//                            weekChange = kloutService.getWeekChange();
-//                            setWeekChange(weekChange);
-//
-//
-//                            monthChange = kloutService.getMonthChange();
-//                            setMonthChange(monthChange);
-//
-//                            Log.d(TAG, dayChange);
-//                            Log.d(TAG, weekChange);
-//                            Log.d(TAG, monthChange);
-
+                                    mRatingTextView.setText(score);
+                                    mDayChangeTextView.setText(dayChange);
+                                    mWeekChangeTextView.setText(weekChange);
+                                    mMonthChangeTextView.setText(monthChange);
+                                }
+                            });
                         }
                     });
 
@@ -150,22 +143,4 @@ public class UserDetailFragment extends Fragment {
             }
         });
     }
-
-    public void setScore(String score) {
-        mRatingTextView.setText(score);
-    }
-
-    public void setDayChange(String dayChange) {
-        mDayChangeTextView.setText(dayChange);
-    }
-
-    public void setWeekChange(String weekChange) {
-        mWeekChangeTextView.setText(weekChange);
-    }
-
-    public void setMonthChange(String monthChange) {
-        mMonthChangeTextView.setText(monthChange);
-
-    }
-
 }

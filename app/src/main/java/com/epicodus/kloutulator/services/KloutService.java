@@ -113,9 +113,6 @@ public class KloutService {
     }
 
     public String getDayChange() {
-//        int dayNumberChange = Integer.parseInt(dayChange);
-//        dayNumberChange
-
         return dayChange;
     }
 
@@ -152,11 +149,11 @@ public class KloutService {
         ArrayList<Influencer> influencers = new ArrayList<>();
         ArrayList<Influencer> influencees = new ArrayList<>();
 
-//        try {
-//            String jsonData = response.body().string();
-//            if (response.isSuccessful()) {
-//                JSONObject influenceJSON = new JSONObject(jsonData);
-//                JSONArray myInfluencers = influenceJSON.getJSONArray("myInfluencers");
+        try {
+            String jsonData = response.body().string();
+            if (response.isSuccessful()) {
+                JSONObject influenceJSON = new JSONObject(jsonData);
+                JSONArray myInfluencers = influenceJSON.getJSONArray("myInfluencers");
 //                if(myInfluencers.length() > 0) {
 //                    for(int i = 0; i < myInfluencers.length(); i++) {
 //                        JSONObject entity = myInfluencers.getJSONObject(i).getJSONObject("entity");
@@ -181,15 +178,16 @@ public class KloutService {
 //                            Influencer newInfluencee = new Influencer(name, score);
 //                            influencees.add(newInfluencee);
 //                        }
-//                }
 //
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        Log.d("INFLUENCER ARRAY", influencers.get(0).getName());
+//                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         return influencers;
     }
