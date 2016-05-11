@@ -108,10 +108,14 @@ public class KloutService {
         }
     }
     public String getScore() {
+        score = score.substring(0, 5);
         return score;
     }
 
     public String getDayChange() {
+//        int dayNumberChange = Integer.parseInt(dayChange);
+//        dayNumberChange
+
         return dayChange;
     }
 
@@ -148,40 +152,44 @@ public class KloutService {
         ArrayList<Influencer> influencers = new ArrayList<>();
         ArrayList<Influencer> influencees = new ArrayList<>();
 
-        try {
-            String jsonData = response.body().string();
-            if (response.isSuccessful()) {
-                JSONObject influenceJSON = new JSONObject(jsonData);
-                JSONArray myInfluencers = influenceJSON.getJSONArray("myInfluencers");
-
-                for(int i = 0; i < myInfluencers.length(); i++) {
-                    JSONObject entity = myInfluencers.getJSONObject(i).getJSONObject("entity");
-                    JSONObject payload = entity.getJSONObject("payload");
-                    String name = payload.getString("nick");
-
-                    JSONObject scores = payload.getJSONObject("score");
-                    String score = scores.getString("score");
-                    Influencer newInfluencer = new Influencer(name, score);
-                    influencers.add(newInfluencer);
-
-                }
-                JSONArray myInfluencees = influenceJSON.getJSONArray("myInfluencees");
-                for(int i = 0; i < myInfluencees.length(); i++) {
-                    JSONObject entity = myInfluencers.getJSONObject(i);
-                    JSONObject payload = entity.getJSONObject("payload");
-                    String name = payload.getString("nick");
-                    JSONObject scores = payload.getJSONObject("score");
-                    String score = scores.getString("score");
-                    Influencer newInfluencee = new Influencer(name, score);
-                    influencees.add(newInfluencee);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("INFLUENCER ARRAY", influencers.get(0).getName());
+//        try {
+//            String jsonData = response.body().string();
+//            if (response.isSuccessful()) {
+//                JSONObject influenceJSON = new JSONObject(jsonData);
+//                JSONArray myInfluencers = influenceJSON.getJSONArray("myInfluencers");
+//                if(myInfluencers.length() > 0) {
+//                    for(int i = 0; i < myInfluencers.length(); i++) {
+//                        JSONObject entity = myInfluencers.getJSONObject(i).getJSONObject("entity");
+//                        JSONObject payload = entity.getJSONObject("payload");
+//                        String name = payload.getString("nick");
+//
+//                        JSONObject scores = payload.getJSONObject("score");
+//                        String influencerScore = scores.getString("score");
+//                        Influencer newInfluencer = new Influencer(name, score);
+//                        influencers.add(newInfluencer);
+//                    }
+//                }
+//
+//                JSONArray myInfluencees = influenceJSON.getJSONArray("myInfluencees");
+//                    if(myInfluencees.length() > 0) {
+//                        for(int i = 0; i < myInfluencees.length(); i++) {
+//                            JSONObject entity = myInfluencers.getJSONObject(i);
+//                            JSONObject payload = entity.getJSONObject("payload");
+//                            String name = payload.getString("nick");
+//                            JSONObject scores = payload.getJSONObject("score");
+//                            String influenceeScore = scores.getString("score");
+//                            Influencer newInfluencee = new Influencer(name, score);
+//                            influencees.add(newInfluencee);
+//                        }
+//                }
+//
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        Log.d("INFLUENCER ARRAY", influencers.get(0).getName());
 
         return influencers;
     }

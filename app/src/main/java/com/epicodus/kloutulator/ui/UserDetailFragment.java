@@ -4,8 +4,9 @@ package com.epicodus.kloutulator.ui;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.annotation.BinderThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,13 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.epicodus.kloutulator.Constants;
 import com.epicodus.kloutulator.R;
 import com.epicodus.kloutulator.models.Influencer;
 import com.epicodus.kloutulator.services.KloutService;
-
-import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +48,10 @@ public class UserDetailFragment extends Fragment {
     public String kloutID;
     private SharedPreferences mSharedPreferences;
     private String mSearchedUsername;
+    public String score;
+    private String dayChange;
+    private String monthChange;
+    private String weekChange;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,9 +66,12 @@ public class UserDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_user_detail, container, false);
         ButterKnife.bind(this, view);
+
+        mUsernameTextView.setText(mSearchedUsername);
+        setScore(score);
 
         return view;
     }
@@ -82,43 +89,83 @@ public class UserDetailFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 kloutService.processResults(response);
                 kloutID = kloutService.getKloutID();
-                Log.d(TAG, kloutID);
 
-                kloutService.findPerson(kloutID, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
+                if(kloutID == null) {
+                    Log.d("No user", "by that name");
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        kloutService.processUserResults(response);
-                        String score = kloutService.getScore();
-                        String dayChange = kloutService.getDayChange();
-                        String weekChange = kloutService.getWeekChange();
-                        String monthChange = kloutService.getMonthChange();
-                        Log.d(TAG, score + "");
-                        Log.d(TAG, dayChange + "");
-                        Log.d(TAG, weekChange + "");
-                        Log.d(TAG, monthChange + "");
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "INVALID USERNAME", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Log.d(TAG, kloutID);
+                    kloutService.findPerson(kloutID, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            kloutService.processUserResults(response);
+                            score = kloutService.getScore();
+                            Log.d(TAG, score);
 
 
-                    }
-                });
+//                            dayChange = kloutService.getDayChange();
+//                            setDayChange(dayChange);
+//
+//
+//                            weekChange = kloutService.getWeekChange();
+//                            setWeekChange(weekChange);
+//
+//
+//                            monthChange = kloutService.getMonthChange();
+//                            setMonthChange(monthChange);
+//
+//                            Log.d(TAG, dayChange);
+//                            Log.d(TAG, weekChange);
+//                            Log.d(TAG, monthChange);
 
-                kloutService.findInfluence(kloutID, new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
+                        }
+                    });
 
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        mInfluencers = kloutService.processInfluenceResults(response);
-                    }
-                });
+                    kloutService.findInfluence(kloutID, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            mInfluencers = kloutService.processInfluenceResults(response);
+                        }
+                    });
+                }
             }
         });
+    }
+
+    public void setScore(String score) {
+        mRatingTextView.setText(score);
+    }
+
+    public void setDayChange(String dayChange) {
+        mDayChangeTextView.setText(dayChange);
+    }
+
+    public void setWeekChange(String weekChange) {
+        mWeekChangeTextView.setText(weekChange);
+    }
+
+    public void setMonthChange(String monthChange) {
+        mMonthChangeTextView.setText(monthChange);
+
     }
 
 }
