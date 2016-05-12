@@ -74,11 +74,6 @@ public class UserDetailFragment extends Fragment {
 
         mUsernameTextView.setText(mSearchedUsername);
 
-        mInfluencerAdapter = new InfluencerListAdapter(this.getContext(), mInfluencers);
-        getmInfluencersRecyclerView.setAdapter(mInfluencerAdapter);
-        RecyclerView.LayoutManager influencerLayoutManager = new LinearLayoutManager(this.getContext());
-        getmInfluencersRecyclerView.setLayoutManager(influencerLayoutManager);
-        getmInfluencersRecyclerView.setHasFixedSize(true);
 
         return view;
     }
@@ -145,6 +140,17 @@ public class UserDetailFragment extends Fragment {
                         @Override
                         public void onResponse(Call call, Response responseInfluence)  {
                             mInfluencers = kloutService.processInfluenceResults(response);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mInfluencerAdapter = new InfluencerListAdapter(getActivity(), mInfluencers);
+                                    getmInfluencersRecyclerView.setAdapter(mInfluencerAdapter);
+                                    RecyclerView.LayoutManager influencerLayoutManager = new LinearLayoutManager(getActivity());
+                                    getmInfluencersRecyclerView.setLayoutManager(influencerLayoutManager);
+                                    getmInfluencersRecyclerView.setHasFixedSize(true);
+                                }
+                            });
+
                         }
                     });
                 }
