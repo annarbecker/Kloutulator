@@ -8,9 +8,9 @@
         android:layout_height="wrap_content"
         android:text="Influencer Name"
         android:id="@+id/nameTextView"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textColor="@color/colorPrimary"
         android:background="#FFFFFF"
-        android:padding="10dp"/>
+        android:padding="5dp"/>
 
 </LinearLayout>

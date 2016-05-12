@@ -95,16 +95,29 @@
             android:paddingTop="5dp"
             android:paddingRight="20dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Top 5 Influencers"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/influencersRecyclerView"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Top 5 Influencees"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
+
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/influenceesRecyclerView"/>
-
 
         </LinearLayout>
     </LinearLayout>
