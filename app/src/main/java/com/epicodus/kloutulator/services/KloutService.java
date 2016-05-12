@@ -160,6 +160,9 @@ public class KloutService {
                         Influencer newInfluencer = new Influencer(name);
                         influencers.add(newInfluencer);
                     }
+                } else {
+                    Influencer noInfluencers = new Influencer("\n this user does not have any influencers \n");
+                    influencers.add(noInfluencers);
                 }
 
                 JSONArray myInfluencees = influenceJSON.getJSONArray("myInfluencees");
@@ -173,7 +176,10 @@ public class KloutService {
                             Influencer newInfluencee = new Influencer(name);
                             influencees.add(newInfluencee);
                         }
-                }
+                } else {
+                        Influencer noInfluencers = new Influencer("\n this user does not have any influencees \n");
+                        influencees.add(noInfluencers);
+                    }
 
             }
         } catch (IOException e) {
