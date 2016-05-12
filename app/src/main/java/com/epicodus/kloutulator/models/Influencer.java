@@ -7,9 +7,8 @@ public class Influencer {
     String name;
     String score;
 
-    public Influencer(String name, String score) {
+    public Influencer(String name) {
         this.name = name;
-        this.score = score;
     }
 
     public String getScore() {

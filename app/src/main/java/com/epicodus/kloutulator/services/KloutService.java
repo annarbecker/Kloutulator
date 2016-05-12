@@ -28,6 +28,7 @@ public class KloutService {
     public String score;
     public String weekChange;
     public String monthChange;
+    public ArrayList<Influencer> influencees = new ArrayList<>();
 
     public void findKloutID(String searchedUsername, Callback callback) {
         String KLOUT_API_KEY = Constants.KLOUT_API_KEY;
@@ -142,11 +143,9 @@ public class KloutService {
 
     public ArrayList<Influencer> processInfluenceResults(Response response) {
         ArrayList<Influencer> influencers = new ArrayList<>();
-        ArrayList<Influencer> influencees = new ArrayList<>();
 
         try {
             String jsonData = response.body().string();
-            Log.v("jsondata: ", jsonData);
             if (response.isSuccessful()) {
                 JSONObject influenceJSON = new JSONObject(jsonData);
                 JSONArray myInfluencers = influenceJSON.getJSONArray("myInfluencers");
@@ -158,23 +157,23 @@ public class KloutService {
 
                         JSONObject scores = payload.getJSONObject("score");
                         String influencerScore = scores.getString("score");
-                        Influencer newInfluencer = new Influencer(name, score);
+                        Influencer newInfluencer = new Influencer(name);
                         influencers.add(newInfluencer);
                     }
                 }
 
-//                JSONArray myInfluencees = influenceJSON.getJSONArray("myInfluencees");
-//                    if(myInfluencees.length() > 0) {
-//                        for(int i = 0; i < myInfluencees.length(); i++) {
-//                            JSONObject entity = myInfluencers.getJSONObject(i);
-//                            JSONObject payload = entity.getJSONObject("payload");
-//                            String name = payload.getString("nick");
-//                            JSONObject scores = payload.getJSONObject("score");
-//                            String influenceeScore = scores.getString("score");
-//                            Influencer newInfluencee = new Influencer(name, score);
-//                            influencees.add(newInfluencee);
-//                        }
-//                }
+                JSONArray myInfluencees = influenceJSON.getJSONArray("myInfluencees");
+                    if(myInfluencees.length() > 0) {
+                        for(int i = 0; i < myInfluencees.length(); i++) {
+                            JSONObject entity = myInfluencees.getJSONObject(i).getJSONObject("entity");
+                            JSONObject payload = entity.getJSONObject("payload");
+                            String name = payload.getString("nick");
+                            JSONObject scores = payload.getJSONObject("score");
+                            String influenceeScore = scores.getString("score");
+                            Influencer newInfluencee = new Influencer(name);
+                            influencees.add(newInfluencee);
+                        }
+                }
 
             }
         } catch (IOException e) {
@@ -185,5 +184,9 @@ public class KloutService {
 
         return influencers;
 
+    }
+
+    public ArrayList<Influencer> getInfluencees() {
+        return influencees;
     }
 }

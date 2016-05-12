@@ -24,6 +24,7 @@ import com.epicodus.kloutulator.models.Influencer;
 import com.epicodus.kloutulator.services.KloutService;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -42,10 +43,11 @@ public class UserDetailFragment extends Fragment {
     @Bind(R.id.ratingTextView) TextView mRatingTextView;
     @Bind(R.id.weekChangeTextView) TextView mWeekChangeTextView;
     @Bind(R.id.monthChangeTextView) TextView mMonthChangeTextView;
-//    @Bind(R.id.influenceesRecyclerView) RecyclerView mInfluenceesRecyclerView;
-    @Bind(R.id.influencersRecyclerView) RecyclerView getmInfluencersRecyclerView;
+    @Bind(R.id.influenceesRecyclerView) RecyclerView mInfluenceesRecyclerView;
+    @Bind(R.id.influencersRecyclerView) RecyclerView mInfluencersRecyclerView;
 
     public ArrayList<Influencer> mInfluencers;
+    public ArrayList<Influencer> mInfluencees;
     public String kloutID;
     private SharedPreferences mSharedPreferences;
     private String mSearchedUsername;
@@ -73,8 +75,6 @@ public class UserDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mUsernameTextView.setText(mSearchedUsername);
-
-
         return view;
     }
 
@@ -144,17 +144,35 @@ public class UserDetailFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     mInfluencerAdapter = new InfluencerListAdapter(getActivity(), mInfluencers);
-                                    getmInfluencersRecyclerView.setAdapter(mInfluencerAdapter);
+                                    mInfluencersRecyclerView.setAdapter(mInfluencerAdapter);
                                     RecyclerView.LayoutManager influencerLayoutManager = new LinearLayoutManager(getActivity());
-                                    getmInfluencersRecyclerView.setLayoutManager(influencerLayoutManager);
-                                    getmInfluencersRecyclerView.setHasFixedSize(true);
+                                    mInfluencersRecyclerView.setLayoutManager(influencerLayoutManager);
+                                    mInfluencersRecyclerView.setHasFixedSize(true);
+                                }
+                            });
+
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mInfluencees = kloutService.getInfluencees();
+                                    mInfluencerAdapter = new InfluencerListAdapter(getActivity(), mInfluencees);
+                                    mInfluenceesRecyclerView.setAdapter(mInfluencerAdapter);
+                                    RecyclerView.LayoutManager influencerLayoutManager = new LinearLayoutManager(getActivity());
+                                    mInfluenceesRecyclerView.setLayoutManager(influencerLayoutManager);
+                                    mInfluenceesRecyclerView.setHasFixedSize(true);
                                 }
                             });
 
                         }
                     });
+
+
+
                 }
             }
         });
     }
 }
+
+
+
