@@ -57,6 +57,7 @@ public class UserDetailFragment extends Fragment {
     private String weekChange;
     private InfluencerListAdapter mInfluencerAdapter;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,12 +163,8 @@ public class UserDetailFragment extends Fragment {
                                     mInfluenceesRecyclerView.setHasFixedSize(true);
                                 }
                             });
-
                         }
                     });
-
-
-
                 }
             }
         });
