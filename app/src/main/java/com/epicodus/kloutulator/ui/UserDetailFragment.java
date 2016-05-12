@@ -3,6 +3,7 @@ package com.epicodus.kloutulator.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,7 +37,7 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserDetailFragment extends Fragment {
+public class UserDetailFragment extends Fragment implements View.OnClickListener{
     public static final String TAG = UserDetailFragment.class.getSimpleName();
 
     @Bind(R.id.usernameTextView) TextView mUsernameTextView;
@@ -76,7 +77,14 @@ public class UserDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mUsernameTextView.setText(mSearchedUsername);
+        mUsernameTextView.setOnClickListener(this);
+
         return view;
+    }
+    @Override
+    public void onClick(View v) {
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twitter.com/" + mSearchedUsername));
+        startActivity(webIntent);
     }
 
     private void getKlout(final String searchedUsername) {
