@@ -138,7 +138,7 @@ public class UserDetailFragment extends Fragment {
                         }
 
                         @Override
-                        public void onResponse(Call call, Response responseInfluence)  {
+                        public void onResponse(Call call, Response response)  {
                             mInfluencers = kloutService.processInfluenceResults(response);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override

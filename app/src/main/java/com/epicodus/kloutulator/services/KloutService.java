@@ -146,6 +146,7 @@ public class KloutService {
 
         try {
             String jsonData = response.body().string();
+            Log.v("jsondata: ", jsonData);
             if (response.isSuccessful()) {
                 JSONObject influenceJSON = new JSONObject(jsonData);
                 JSONArray myInfluencers = influenceJSON.getJSONArray("myInfluencers");
